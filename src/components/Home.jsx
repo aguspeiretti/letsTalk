@@ -1,17 +1,13 @@
 import React from "react";
-import {
-  Card,
-  CardContent,
-  CardHeader,
-  CardTitle,
-} from "../components/ui/card";
+import { Card, CardContent } from "../components/ui/card";
 import { Star, Home, Sparkles } from "lucide-react";
 import LanguageApp from "./Game";
 import DailyRoutinePictograms from "./DailyRoutinePictograms";
+import { useUser } from "../context/UserContext";
 
 const HomePage = () => {
   const [currentView, setCurrentView] = React.useState("home");
-
+  const user = useUser();
   const renderContent = () => {
     switch (currentView) {
       case "language":
@@ -151,6 +147,13 @@ const HomePage = () => {
               </button>
             )}
           </div>
+          <button
+            type="button"
+            onClick={() => user.logout()}
+            className="button bg-blue-200 py-[4px] px-6 rounded-lg"
+          >
+            Logout
+          </button>
         </div>
       </header>
 

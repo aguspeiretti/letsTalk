@@ -1,4 +1,5 @@
-import React, { useState, useEffect } from "react";
+/* eslint-disable react-hooks/exhaustive-deps */
+import { useState, useEffect } from "react";
 import {
   Card,
   CardContent,
@@ -6,7 +7,7 @@ import {
   CardTitle,
 } from "../components/ui/card";
 import { Button } from "../components/ui/button";
-import { Volume2, ThumbsUp, ArrowRight, Star } from "lucide-react";
+import { Volume2, ArrowRight, Star } from "lucide-react";
 
 const LanguageApp = () => {
   const [currentCategory, setCurrentCategory] = useState("daily");

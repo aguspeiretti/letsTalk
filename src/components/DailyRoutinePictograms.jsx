@@ -1,4 +1,7 @@
-import React, { useState } from "react";
+/* eslint-disable no-unused-vars */
+import { useState, useEffect } from "react";
+import { appwriteService } from "../appwrite-config";
+import NewRoutineModal from "./NewRoutineModal";
 import {
   Card,
   CardHeader,
@@ -6,84 +9,76 @@ import {
   CardContent,
 } from "../components/ui/card";
 import { Button } from "../components/ui/button";
-import { Plus, X, Clock, PlayCircle, Star, ArrowRight } from "lucide-react";
+import { Plus, X, Clock, PlayCircle, ArrowRight, Trash } from "lucide-react";
 
 const DailyRoutinePictograms = () => {
-  const [routines, setRoutines] = useState([
-    {
-      id: 1,
-      name: "Rutina de Mañana",
-      icon: "🌅",
-      color: "bg-yellow-100",
-      borderColor: "border-yellow-300",
-      textColor: "text-yellow-600",
-      steps: [
-        {
-          id: 1,
-          activity: "Despertar",
-          time: "07:00",
-          image: "/api/placeholder/100/100",
-        },
-        {
-          id: 2,
-          activity: "Lavarse los dientes",
-          time: "07:15",
-          image: "/api/placeholder/100/100",
-        },
-        {
-          id: 3,
-          activity: "Vestirse",
-          time: "07:30",
-          image: "/api/placeholder/100/100",
-        },
-        {
-          id: 4,
-          activity: "Desayunar",
-          time: "08:00",
-          image: "/api/placeholder/100/100",
-        },
-      ],
-    },
-    {
-      id: 2,
-      name: "Rutina de Noche",
-      icon: "🌙",
-      color: "bg-blue-100",
-      borderColor: "border-blue-300",
-      textColor: "text-blue-600",
-      steps: [
-        {
-          id: 1,
-          activity: "Bañarse",
-          time: "19:00",
-          image: "/api/placeholder/100/100",
-        },
-        {
-          id: 2,
-          activity: "Ponerse pijama",
-          time: "19:30",
-          image: "/api/placeholder/100/100",
-        },
-        {
-          id: 3,
-          activity: "Lavarse los dientes",
-          time: "20:00",
-          image: "/api/placeholder/100/100",
-        },
-        {
-          id: 4,
-          activity: "Dormir",
-          time: "20:30",
-          image: "/api/placeholder/100/100",
-        },
-      ],
-    },
-  ]);
-
+  const [routines, setRoutines] = useState([]);
   const [selectedRoutine, setSelectedRoutine] = useState(null);
   const [isPlaying, setIsPlaying] = useState(false);
   const [currentStep, setCurrentStep] = useState(0);
   const [showReward, setShowReward] = useState(false);
+  const [showNewRoutineModal, setShowNewRoutineModal] = useState(false);
+
+  useEffect(() => {
+    loadRoutines();
+  }, []);
+
+  const handleDeleteRoutine = async (routineId) => {
+    console.log(routineId);
+
+    try {
+      await appwriteService.deleteRoutine(routineId); // Llama al servicio para eliminar la rutina
+      await loadRoutines(); // Recargar rutinas después de eliminar
+    } catch (error) {
+      console.error("Error deleting routine:", error);
+      // Aquí podrías mostrar un mensaje de error al usuario
+    }
+  };
+
+  const loadRoutines = async () => {
+    try {
+      const fetchedRoutines = await appwriteService.getRoutines();
+
+      // Parsear los pasos
+      const parsedRoutines = await Promise.all(
+        fetchedRoutines.map(async (routine) => {
+          const steps = await Promise.all(
+            routine.steps.map(async (step) => {
+              const [activity, time, imageId] = step.split(" - ");
+              const imageUrl = await appwriteService.getImageUrl(imageId); // Obtener la URL de la imagen
+              return {
+                activity,
+                time,
+                imageId,
+                image: imageUrl, // Asignar la URL de la imagen
+              };
+            })
+          );
+
+          return {
+            ...routine,
+            steps,
+          };
+        })
+      );
+
+      setRoutines(parsedRoutines);
+    } catch (error) {
+      console.error("Error loading routines:", error);
+      // Aquí podrías mostrar un mensaje de error al usuario
+    }
+  };
+  console.log(routines);
+
+  const handleSaveNewRoutine = async (routineData) => {
+    try {
+      await appwriteService.createRoutine(routineData);
+      await loadRoutines(); // Recargar rutinas después de crear una nueva
+    } catch (error) {
+      console.error("Error saving new routine:", error);
+      // Aquí podrías mostrar un mensaje de error al usuario
+    }
+  };
 
   const speakActivity = (activity) => {
     const utterance = new SpeechSynthesisUtterance(activity);
@@ -123,7 +118,7 @@ const DailyRoutinePictograms = () => {
       <div className="flex flex-col gap-8 max-w-6xl mx-auto">
         {routines.map((routine) => (
           <Card
-            key={routine.id}
+            key={routine.$id}
             className={`
               transition-all duration-300 hover:scale-102
               border-4 ${routine.borderColor} ${routine.color}
@@ -140,21 +135,29 @@ const DailyRoutinePictograms = () => {
                   variant="outline"
                   size="icon"
                   className={`${routine.textColor} hover:scale-110 transition-transform`}
+                  onClick={() => handleDeleteRoutine(routine.$id)} // Llama a la función de eliminación
+                >
+                  <Trash className="w-6 h-6" />
+                </Button>
+                <Button
+                  variant="outline"
+                  size="icon"
+                  className={`${routine.textColor} hover:scale-110 transition-transform`}
                   onClick={() => playRoutine(routine)}
                 >
                   <PlayCircle className="w-6 h-6" />
                 </Button>
               </CardTitle>
             </CardHeader>
-            <CardContent className="overflow-x-auto">
+            <Card Content className="overflow-x-auto">
               <div className="flex gap-4 min-w-max p-2">
                 {routine.steps.map((step, index) => (
-                  <div key={step.id} className="flex flex-col items-center">
+                  <div key={index} className="flex flex-col items-center">
                     {/* Step container */}
                     <div className="relative flex flex-col items-center p-4 bg-white/80 rounded-2xl shadow-md hover:shadow-lg transition-shadow">
                       <div className="relative group">
                         <img
-                          src={step.image}
+                          src={step.image} // Usar la URL de la imagen
                           alt={step.activity}
                           className="w-24 h-24 object-cover rounded-xl mb-3 transition-transform duration-300 group-hover:scale-105"
                         />
@@ -182,7 +185,7 @@ const DailyRoutinePictograms = () => {
                   </div>
                 ))}
               </div>
-            </CardContent>
+            </Card>
           </Card>
         ))}
       </div>
@@ -257,15 +260,25 @@ const DailyRoutinePictograms = () => {
           <div className="bg-white p-8 rounded-3xl flex flex-col items-center animate-bounce shadow-2xl border-4 border-yellow-300">
             <div className="text-6xl mb-4">🌟</div>
             <h2 className="text-3xl font-bold text-yellow-600">¡Muy bien!</h2>
-            <p className="text-yellow-500 mt-2">¡Has completado tu rutina!</p>
+            <p className=" text-yellow-500 mt-2">¡Has completado tu rutina!</p>
           </div>
         </div>
       )}
 
       {/* Botón para Agregar Nueva Rutina */}
-      <Button className="fixed bottom-6 right-6 rounded-full w-16 h-16 p-0 bg-purple-500 hover:bg-purple-600 shadow-lg hover:shadow-xl transition-all duration-300 hover:scale-110">
+      <Button
+        className="fixed bottom-6 right-6 rounded-full w-16 h-16 p-0 bg-purple-500 hover:bg-purple-600 shadow-lg hover:shadow-xl transition-all duration-300 hover:scale-110"
+        onClick={() => setShowNewRoutineModal(true)}
+      >
         <Plus className="w-8 h-8" />
       </Button>
+
+      {/* New Routine Modal */}
+      <NewRoutineModal
+        open={showNewRoutineModal}
+        onClose={() => setShowNewRoutineModal(false)}
+        onSave={handleSaveNewRoutine}
+      />
     </div>
   );
 };
