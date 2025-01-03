@@ -117,9 +117,9 @@ const LanguageApp = () => {
 
   return (
     <div className="min-h-screen bg-gradient-to-r from-purple-100 to-pink-100">
-      <div className="flex gap-6 p-4 max-w-6xl mx-auto">
+      <div className="flex flex-col md:flex-row gap-6 p-4 max-w-6xl mx-auto">
         {/* Barra lateral de categorías */}
-        <div className="w-48 space-y-4">
+        <div className="w-full md:w-48 space-y-4">
           {Object.entries(categories).map(([key, category]) => (
             <div
               key={key}
@@ -173,12 +173,12 @@ const LanguageApp = () => {
                 <img
                   src={currentWord.image}
                   alt={currentWord.word}
-                  className="w-80 h-80 rounded-3xl shadow-lg transition-transform duration-300 group-hover:scale-105"
+                  className="w-full h-80 rounded-3xl shadow-lg transition-transform duration-300 group-hover:scale-105"
                 />
                 <div className="absolute inset-0 bg-white opacity-0 group-hover:opacity-10 rounded-3xl transition-opacity duration-300" />
               </div>
 
-              <div className="flex gap-6 mt-4">
+              <div className="flex flex-col md:flex-row gap-6 mt-4">
                 <Button
                   size="lg"
                   onClick={() => speakWord(currentWord.word)}
@@ -212,7 +212,7 @@ const LanguageApp = () => {
 
       {/* Recompensa */}
       {showReward && (
-        <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-30 backdrop-blur-sm">
+        <div className="fixed inset-0 flex items-center justify center bg-black bg-opacity-30 backdrop-blur-sm">
           <div className="bg-white p-8 rounded-3xl flex flex-col items-center animate-bounce shadow-2xl border-4 border-yellow-300">
             <div className="text-6xl mb-4">🌟</div>
             <h2 className="text-3xl font-bold text-yellow-600">¡Muy bien!</h2>

@@ -110,7 +110,7 @@ const DailyRoutinePictograms = () => {
 
   return (
     <div className="min-h-screen bg-gradient-to-r from-purple-100 to-pink-100 p-6">
-      <h1 className="text-4xl font-bold mb-8 text-center text-purple-600 tracking-wider">
+      <h1 className="text-3xl font-bold mb-8 text-center text-sky-400 tracking-wider">
         Mis Rutinas Diarias
       </h1>
 
@@ -267,7 +267,7 @@ const DailyRoutinePictograms = () => {
 
       {/* Botón para Agregar Nueva Rutina */}
       <Button
-        className="fixed bottom-6 right-6 rounded-full w-16 h-16 p-0 bg-purple-500 hover:bg-purple-600 shadow-lg hover:shadow-xl transition-all duration-300 hover:scale-110"
+        className="fixed bottom-6 right-6 rounded-full w-16 h-16 p-0 bg-sky-200 hover:bg-sky-400 shadow-lg hover:shadow-xl transition-all duration-300 hover:scale-110"
         onClick={() => setShowNewRoutineModal(true)}
       >
         <Plus className="w-8 h-8" />
