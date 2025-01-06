@@ -1,18 +1,23 @@
 import { Client, Databases, Account, Storage, ID } from "appwrite";
-
+const appwriteEndpoint = import.meta.env.VITE_APPWRITE_ENDPOINT;
+const appwriteProjectId = import.meta.env.VITE_APPWRITE_PROJECT_ID;
+const databasesId = import.meta.env.VITE_APPWRITE_DATABASES_ID;
+const routinesCollectionId = import.meta.env
+  .VITE_APPWRITE_ROUTINES_COLLECTION_ID;
+const storageBucketId = import.meta.env.VITE_APPWRITE_STORAGE_BUCKET_ID;
 // Cliente de Appwrite
 const client = new Client()
-  .setEndpoint("https://cloud.appwrite.io/v1")
-  .setProject("6769a98a000bd6f0adde");
+  .setEndpoint(appwriteEndpoint)
+  .setProject(appwriteProjectId);
 
 const databases = new Databases(client);
 export const account = new Account(client);
 const storage = new Storage(client);
 
 // Constantes
-const DATABASES_ID = "6777c6ec002d2bcbab93";
-const ROUTINES_COLLECTION_ID = "6777c718001964602737";
-const STORAGE_BUCKET_ID = "6777ce2400138fd99a0c";
+const DATABASES_ID = databasesId;
+const ROUTINES_COLLECTION_ID = routinesCollectionId;
+const STORAGE_BUCKET_ID = storageBucketId;
 
 // Validación de imágenes
 const validateImage = (file) => {
@@ -74,8 +79,7 @@ export const appwriteService = {
 
           // Si hay un archivo de imagen, súbelo y agrega la información
           if (step.imageFile && step.imageFile instanceof File) {
-            // eslint-disable-next-line no-unused-vars
-            const { fileId, fileUrl } = await this.uploadImage(step.imageFile);
+            const { fileId } = await this.uploadImage(step.imageFile);
             stepString += ` - ${fileId}`; // Agregar el ID de la imagen al string
           }
 
