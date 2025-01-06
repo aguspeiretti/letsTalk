@@ -1,3 +1,4 @@
+/* eslint-disable react/prop-types */
 import { useState } from "react";
 import { useUser } from "../context/UserContext";
 import { Mail, Lock } from "lucide-react"; // Iconos amigables de Lucide-React

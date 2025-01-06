@@ -1,5 +1,7 @@
+/* eslint-disable react/prop-types */
 import { useState, useEffect } from "react";
 import { Plus, Trash, X, Upload } from "lucide-react";
+// eslint-disable-next-line no-unused-vars
 import { appwriteService } from "../appwrite-config";
 
 const EMOJI_LIST = [

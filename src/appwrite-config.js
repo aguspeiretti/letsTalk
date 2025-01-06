@@ -74,6 +74,7 @@ export const appwriteService = {
 
           // Si hay un archivo de imagen, súbelo y agrega la información
           if (step.imageFile && step.imageFile instanceof File) {
+            // eslint-disable-next-line no-unused-vars
             const { fileId, fileUrl } = await this.uploadImage(step.imageFile);
             stepString += ` - ${fileId}`; // Agregar el ID de la imagen al string
           }
