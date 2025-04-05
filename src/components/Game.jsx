@@ -9,6 +9,7 @@ import {
 import { Button } from "../components/ui/button";
 import { Volume2, ArrowRight, Star } from "lucide-react";
 import { categories } from "../categories";
+import { useSwipeable } from "react-swipeable";
 
 console.log(categories);
 
@@ -101,6 +102,13 @@ const LanguageApp = () => {
 
   console.log(currentWord);
 
+  const handlers = useSwipeable({
+    onSwipedLeft: () => handleNextWord(),
+    onSwipedRight: () => handlePreviousWord(),
+    preventDefaultTouchmoveEvent: true,
+    trackMouse: false
+  });
+
   return (
     <div className="min-h-screen bg-gradient-to-r from-purple-100 to-pink-100 p-2 sm:p-4">
       <div className="max-w-7xl mx-auto grid md:grid-cols-12 gap-2 sm:gap-4">
@@ -148,11 +156,9 @@ const LanguageApp = () => {
               </CardTitle>
             </CardHeader>
             <CardContent className="p-3 sm:p-4">
-              <div className="relative aspect-video mb-6">
+              <div {...handlers} className="relative aspect-video mb-6">
                 <img
-                  src={
-                    currentWord.image || "/src/assets/images/placeholder.png"
-                  }
+                  src={currentWord.image || "/src/assets/images/placeholder.png"}
                   alt={currentWord.word}
                   className="w-full h-full object-contain rounded-xl"
                   onLoad={() => speakWord(currentWord.word)}
