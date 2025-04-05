@@ -76,6 +76,7 @@ import juli from "./assets/images/familia/ju.png"
 import ago from "./assets/images/familia/agos.png"
 import joa from "./assets/images/familia/joa.jpg"
 import andres from "./assets/images/familia/andres.png"
+import moka from "./assets/images/familia/moka.png"
 
 import Amarillo from "./assets/images/colores/amarillo.jpg" 
 import Azul from "./assets/images/colores/azul.png" 
@@ -180,10 +181,10 @@ export const categories = {
       { word: "Tía Majo", image: majo },
       { word: "Tío Pablo", image: pablo },
       { word: "Tía Aye", image: aye },
-      { word: "Tía Agos", image: ago },
+      { word: "Tía Ago", image: ago },
       { word: "Tío Andres", image: andres },
-      { word: "Tío Pao", image: pao },
-      { word: "Moca", image: {} },
+      { word: "Tía Pao", image: pao },
+      { word: "Moka", image: moka },
     ],
   },
   colors: {
