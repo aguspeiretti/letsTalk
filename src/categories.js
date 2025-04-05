@@ -31,7 +31,7 @@ import avion from "./assets/images/transporte/avion.jpeg";
 import barco from "./assets/images/transporte/barco.jpeg";
 import Bicicleta from "./assets/images/transporte/bicicleta.jpeg";
 import Camion from "./assets/images/transporte/camion.jpeg";
-import Helicoptero from "./assets/images/transporte/descarga.jpeg";
+import Helicoptero from "./assets/images/transporte/helicoptero.jpeg";
 import moto from "./assets/images/transporte/moto.jpeg";
 import tren from "./assets/images/transporte/tren.jpeg";
 
@@ -175,7 +175,7 @@ export const categories = {
       { word: "Abuelo Guille", image: guillermo },
       { word: "Abuela Silvia", image:silvia },
       { word: "Abuelo Omar", image: omar },
-      { word: "Abuela Mary", image: mari },
+      { word: "Abuela Mari", image: mari },
       { word: "Tío Nico", image:nico },
       { word: "Tía Majo", image: majo },
       { word: "Tío Pablo", image: pablo },
