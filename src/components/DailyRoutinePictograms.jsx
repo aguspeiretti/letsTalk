@@ -1,5 +1,6 @@
 /* eslint-disable no-unused-vars */
 import { useState, useEffect } from "react";
+import PropTypes from "prop-types";
 import { appwriteService } from "../appwrite-config";
 import NewRoutineModal from "./NewRoutineModal";
 import {
@@ -9,7 +10,39 @@ import {
   CardContent,
 } from "../components/ui/card";
 import { Button } from "../components/ui/button";
-import { Plus, X, Clock, PlayCircle, ArrowRight, Trash } from "lucide-react";
+import {
+  Plus,
+  X,
+  Clock,
+  PlayCircle,
+  ArrowRight,
+  Trash,
+  AlertCircle,
+} from "lucide-react";
+
+const Notification = ({ message, type, onClose }) => {
+  return (
+    <div
+      className={`fixed top-4 right-4 z-50 animate-slide-in flex items-center gap-2 p-4 rounded-lg shadow-lg ${
+        type === "error"
+          ? "bg-red-100 border-l-4 border-red-500 text-red-700"
+          : "bg-green-100 border-l-4 border-green-500 text-green-700"
+      }`}
+    >
+      <AlertCircle className="w-5 h-5" />
+      <p>{message}</p>
+      <button onClick={onClose} className="ml-4 hover:text-gray-700">
+        <X className="w-4 h-4" />
+      </button>
+    </div>
+  );
+};
+
+Notification.propTypes = {
+  message: PropTypes.string.isRequired,
+  type: PropTypes.oneOf(["error", "success"]).isRequired,
+  onClose: PropTypes.func.isRequired,
+};
 
 const DailyRoutinePictograms = () => {
   const [routines, setRoutines] = useState([]);
@@ -18,20 +51,27 @@ const DailyRoutinePictograms = () => {
   const [currentStep, setCurrentStep] = useState(0);
   const [showReward, setShowReward] = useState(false);
   const [showNewRoutineModal, setShowNewRoutineModal] = useState(false);
+  const [notification, setNotification] = useState(null);
+
+  const showNotification = (message, type = "error") => {
+    setNotification({ message, type });
+    setTimeout(() => setNotification(null), 5000); // Auto-close after 5 seconds
+  };
 
   useEffect(() => {
     loadRoutines();
   }, []);
 
   const handleDeleteRoutine = async (routineId) => {
-    console.log(routineId);
-
     try {
-      await appwriteService.deleteRoutine(routineId); // Llama al servicio para eliminar la rutina
-      await loadRoutines(); // Recargar rutinas después de eliminar
+      await appwriteService.deleteRoutine(routineId);
+      await loadRoutines();
+      showNotification("Rutina eliminada exitosamente", "success");
     } catch (error) {
       console.error("Error deleting routine:", error);
-      // Aquí podrías mostrar un mensaje de error al usuario
+      showNotification(
+        "No se pudo eliminar la rutina. Por favor, intenta de nuevo."
+      );
     }
   };
 
@@ -39,18 +79,33 @@ const DailyRoutinePictograms = () => {
     try {
       const fetchedRoutines = await appwriteService.getRoutines();
 
-      // Parsear los pasos
       const parsedRoutines = await Promise.all(
         fetchedRoutines.map(async (routine) => {
           const steps = await Promise.all(
             routine.steps.map(async (step) => {
-              const [activity, time, imageId] = step.split(" - ");
-              const imageUrl = await appwriteService.getImageUrl(imageId); // Obtener la URL de la imagen
+              const parts = step.split(" - ");
+              const activity = parts[0];
+              const time = parts[1];
+              const imageId = parts[2];
+
+              let imageUrl = "/api/placeholder/100/100";
+
+              if (imageId) {
+                try {
+                  imageUrl = await appwriteService.getImageUrl(imageId);
+                } catch (error) {
+                  console.error("Error al obtener la URL de la imagen:", error);
+                  showNotification(
+                    "No se pudo cargar una imagen. Se mostrará una imagen por defecto."
+                  );
+                }
+              }
+
               return {
                 activity,
                 time,
                 imageId,
-                image: imageUrl, // Asignar la URL de la imagen
+                image: imageUrl,
               };
             })
           );
@@ -65,18 +120,23 @@ const DailyRoutinePictograms = () => {
       setRoutines(parsedRoutines);
     } catch (error) {
       console.error("Error loading routines:", error);
-      // Aquí podrías mostrar un mensaje de error al usuario
+      showNotification(
+        "No se pudieron cargar las rutinas. Por favor, recarga la página."
+      );
     }
   };
-  console.log(routines);
 
   const handleSaveNewRoutine = async (routineData) => {
     try {
       await appwriteService.createRoutine(routineData);
-      await loadRoutines(); // Recargar rutinas después de crear una nueva
+      await loadRoutines();
+      showNotification("Rutina creada exitosamente", "success");
+      setShowNewRoutineModal(false);
     } catch (error) {
       console.error("Error saving new routine:", error);
-      // Aquí podrías mostrar un mensaje de error al usuario
+      showNotification(
+        "No se pudo crear la rutina. Por favor, intenta de nuevo."
+      );
     }
   };
 
@@ -110,6 +170,14 @@ const DailyRoutinePictograms = () => {
 
   return (
     <div className="min-h-screen bg-gradient-to-r from-purple-100 to-pink-100 p-6">
+      {notification && (
+        <Notification
+          message={notification.message}
+          type={notification.type}
+          onClose={() => setNotification(null)}
+        />
+      )}
+
       <h1 className="text-3xl font-bold mb-8 text-center text-sky-400 tracking-wider">
         Mis Rutinas Diarias
       </h1>
@@ -149,7 +217,7 @@ const DailyRoutinePictograms = () => {
                 </Button>
               </CardTitle>
             </CardHeader>
-            <Card Content className="overflow-x-auto">
+            <CardContent className="overflow-x-auto">
               <div className="flex gap-4 min-w-max p-2">
                 {routine.steps.map((step, index) => (
                   <div key={index} className="flex flex-col items-center">
@@ -185,7 +253,7 @@ const DailyRoutinePictograms = () => {
                   </div>
                 ))}
               </div>
-            </Card>
+            </CardContent>
           </Card>
         ))}
       </div>

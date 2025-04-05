@@ -9,6 +9,7 @@ import { useUser } from "../context/UserContext";
 import speak from "../assets/images/speacker.jpg";
 import rutine from "../assets/images/kids.jpg";
 import toy from "../assets/images/toys.png";
+import Joaqui from "../assets/images/Joaqui.jpg";
 
 const HomePage = () => {
   const [currentView, setCurrentView] = React.useState("home");
@@ -24,8 +25,12 @@ const HomePage = () => {
           <div className="max-w-4xl mx-auto p-4 space-y-6">
             {/* Personaje de bienvenida */}
             <div className="text-center mb-8">
-              <div className="bg-yellow-100 rounded-full w-32 h-32 mx-auto mb-4 flex items-center justify-center">
-                <Sparkles className="w-16 h-16 text-yellow-400" />
+              <div className="bg-yellow-100 rounded-full w-32 h-32 mx-auto mb-4 flex items-center justify-center overflow-hidden">
+                <img
+                  src={Joaqui}
+                  alt=""
+                  className="w-full h-full object-cover"
+                />
               </div>
               <h2 className="text-2xl font-bold text-purple-600">
                 ¡Hola Joaqui!!

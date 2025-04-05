@@ -8,16 +8,9 @@ import {
 } from "../components/ui/card";
 import { Button } from "../components/ui/button";
 import { Volume2, ArrowRight, Star } from "lucide-react";
-import vasoImage from "../assets/images/objetos/vaso.jpeg";
-import platoImage from "../assets/images/objetos/plato.jpeg";
-import cucharaImage from "../assets/images/objetos/cuchara.jpeg";
+import { categories } from "../categories";
 
-import cuchilloImage from "../assets/images/objetos/cuchillo.jpeg";
-import aguaImage from "../assets/images/objetos/agua.jpeg";
-import mateImage from "../assets/images/objetos/mate.jpeg";
-import saleroImage from "../assets/images/objetos/salero.jpeg";
-import galletasImage from "../assets/images/objetos/galletas.jpeg";
-import panImage from "../assets/images/objetos/pan.jpeg";
+console.log(categories);
 
 const LanguageApp = () => {
   const [currentCategory, setCurrentCategory] = useState("daily");
@@ -26,226 +19,6 @@ const LanguageApp = () => {
   const [voices, setVoices] = useState([]);
   const [selectedVoice, setSelectedVoice] = useState(null);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
-  const categories = {
-    daily: {
-      name: "Objetos Diarios",
-      icon: "\ud83c\udfe0",
-      color: "bg-pink-100",
-      borderColor: "border-pink-300",
-      textColor: "text-pink-600",
-      words: [
-        { word: "Vaso", image: { vasoImage } },
-        { word: "Plato", image: { platoImage } },
-        { word: "Cuchara", image: { cucharaImage } },
-        { word: "Tenedor", image: "" },
-        { word: "Cuchillo", image: { cuchilloImage } },
-        { word: "Agua", image: { aguaImage } },
-        { word: "Mate", image: { mateImage } },
-        { word: "Sal", image: { saleroImage } },
-        { word: "Galletas", image: { galletasImage } },
-        { word: "Pan", image: { panImage } },
-      ],
-    },
-    emotions: {
-      name: "Emociones",
-      icon: "\ud83d\ude0a",
-      color: "bg-yellow-100",
-      borderColor: "border-yellow-300",
-      textColor: "text-yellow-600",
-      words: [
-        { word: "Feliz", image: "../assets/images/objetos" },
-        { word: "Triste", image: "../assets/images/objetos" },
-        { word: "Enojado", image: "../assets/images/objetos" },
-        { word: "Hambriento", image: "../assets/images/objetos" },
-        { word: "Asustado", image: "../assets/images/objetos" },
-        { word: "Sorprendido", image: "../assets/images/objetos" },
-        { word: "Cansado", image: "../assets/images/objetos" },
-        { word: "Calmado", image: "../assets/images/objetos" },
-      ],
-    },
-    animals: {
-      name: "Animales",
-      icon: "\ud83d\udc36",
-      color: "bg-blue-100",
-      borderColor: "border-blue-300",
-      textColor: "text-blue-600",
-      words: [
-        { word: "Perro", image: "../assets/images/objetos" },
-        { word: "Gato", image: "../assets/images/objetos" },
-        { word: "P\u00e1jaro", image: "../assets/images/objetos" },
-        { word: "Oveja", image: "../assets/images/objetos" },
-        { word: "Caballo", image: "../assets/images/objetos" },
-        { word: "Vaca", image: "../assets/images/objetos" },
-        { word: "Pato", image: "../assets/images/objetos" },
-        { word: "Pollito", image: "../assets/images/objetos" },
-        { word: "Rat\u00f3n", image: "../assets/images/objetos" },
-      ],
-    },
-    family: {
-      name: "La Familia",
-      icon: "\ud83d\udc68\u200d\ud83d\udc69\u200d\ud83d\udc66",
-      color: "bg-green-100",
-      borderColor: "border-green-300",
-      textColor: "text-green-600",
-      words: [
-        { word: "Mamá", image: "../assets/images/objetos" },
-        { word: "Papá", image: "../assets/images/objetos" },
-        { word: "Joaqui", image: "../assets/images/objetos" },
-        { word: "Abuelo Guille", image: "../assets/images/objetos" },
-        { word: "Abuela Silvia", image: "../assets/images/objetos" },
-        { word: "Abuelo Omar", image: "../assets/images/objetos" },
-        { word: "Abuela Mary", image: "../assets/images/objetos" },
-        { word: "Tío Nico", image: "../assets/images/objetos" },
-        { word: "Tío Pablo", image: "../assets/images/objetos" },
-        { word: "Tía Agos", image: "../assets/images/objetos" },
-        { word: "Tío Pao", image: "../assets/images/objetos" },
-      ],
-    },
-    colors: {
-      name: "Colores",
-      icon: "\ud83c\udfa8",
-      color: "bg-red-100",
-      borderColor: "border-red-300",
-      textColor: "text-red-600",
-      words: [
-        { word: "Rojo", image: "../assets/images/objetos" },
-        { word: "Azul", image: "../assets/images/objetos" },
-        { word: "Amarillo", image: "../assets/images/objetos" },
-        { word: "Verde", image: "../assets/images/objetos" },
-        { word: "Naranja", image: "../assets/images/objetos" },
-        { word: "Rosa", image: "../assets/images/objetos" },
-        { word: "Blanco", image: "../assets/images/objetos" },
-        { word: "Negro", image: "../assets/images/objetos" },
-        { word: "Marrón", image: "../assets/images/objetos" },
-        { word: "Morado", image: "../assets/images/objetos" },
-      ],
-    },
-    numbers: {
-      name: "Números y Cantidades",
-      icon: "\ud83d\udd22",
-      color: "bg-red-100",
-      borderColor: "border-red-300",
-      textColor: "text-red-600",
-      words: [
-        { word: "Uno", image: "../assets/images/objetos" },
-        { word: "Dos", image: "../assets/images/objetos" },
-        { word: "Tres", image: "../assets/images/objetos" },
-        { word: "Cuatro", image: "../assets/images/objetos" },
-        { word: "Cinco", image: "../assets/images/objetos" },
-        { word: "Seis", image: "../assets/images/objetos" },
-        { word: "Siete", image: "../assets/images/objetos" },
-        { word: "Ocho", image: "../assets/images/objetos" },
-        { word: "Nueve", image: "../assets/images/objetos" },
-        { word: "Diez", image: "../assets/images/objetos" },
-      ],
-    },
-    shapes: {
-      name: "Formas y Figuras",
-      icon: "\u25b2",
-      color: "bg-teal-100",
-      borderColor: "border-teal-300",
-      textColor: "text-teal-600",
-      words: [
-        { word: "Círculo", image: "../assets/images/objetos" },
-        { word: "Cuadrado", image: "../assets/images/objetos" },
-        { word: "Triángulo", image: "../assets/images/objetos" },
-        { word: "Rectángulo", image: "../assets/images/objetos" },
-        { word: "Estrella", image: "../assets/images/objetos" },
-        { word: "Corazón", image: "../assets/images/objetos" },
-      ],
-    },
-    transport: {
-      name: "Transportes",
-      icon: "\ud83d\ude97",
-      color: "bg-orange-100",
-      borderColor: "border-orange-300",
-      textColor: "text-orange-600",
-      words: [
-        { word: "Auto", image: "../assets/images/objetos" },
-        { word: "Avión", image: "../assets/images/objetos" },
-        { word: "Barco", image: "../assets/images/objetos" },
-        { word: "Tren", image: "../assets/images/objetos" },
-        { word: "Bicicleta", image: "../assets/images/objetos" },
-        { word: "Camión", image: "../assets/images/objetos" },
-        { word: "Moto", image: "../assets/images/objetos" },
-        { word: "Helicóptero", image: "../assets/images/objetos" },
-      ],
-    },
-    food: {
-      name: "Comidas y Bebidas",
-      icon: "\ud83c\udf4e",
-      color: "bg-lime-100",
-      borderColor: "border-lime-300",
-      textColor: "text-lime-600",
-      words: [
-        { word: "Manzana", image: "../assets/images/objetos" },
-        { word: "Banana", image: "../assets/images/objetos" },
-        { word: "Leche", image: "../assets/images/objetos" },
-        { word: "Chocolate", image: "../assets/images/objetos" },
-        { word: "Helado", image: "../assets/images/objetos" },
-      ],
-    },
-    clothing: {
-      name: "Ropa y Accesorios",
-      icon: "\ud83d\udc55",
-      color: "bg-gray-100",
-      borderColor: "border-gray-300",
-      textColor: "text-gray-600",
-      words: [
-        { word: "Remera", image: "../assets/images/objetos" },
-        { word: "Pantalón", image: "../assets/images/objetos" },
-        { word: "Zapatillas", image: "../assets/images/objetos" },
-        { word: "Short", image: "../assets/images/objetos" },
-        { word: "calzoncillo", image: "../assets/images/objetos" },
-      ],
-    },
-    actions: {
-      name: "Acciones Básicas",
-      icon: "\ud83e\udd38",
-      color: "bg-indigo-100",
-      borderColor: "border-indigo-300",
-      textColor: "text-indigo-600",
-      words: [
-        { word: "Comer", image: "../assets/images/objetos" },
-        { word: "Beber", image: "../assets/images/objetos" },
-        { word: "Dormir", image: "../assets/images/objetos" },
-        { word: "Jugar", image: "../assets/images/objetos" },
-        { word: "Correr", image: "../assets/images/objetos" },
-        { word: "Leer", image: "../assets/images/objetos" },
-        { word: "Escribir", image: "../assets/images/objetos" },
-      ],
-    },
-    weather: {
-      name: "Estaciones y Clima",
-      icon: "\u2600\ufe0f",
-      color: "bg-cyan-100",
-      borderColor: "border-cyan-300",
-      textColor: "text-cyan-600",
-      words: [
-        { word: "Sol", image: "../assets/images/objetos" },
-        { word: "Lluvia", image: "../assets/images/objetos" },
-        { word: "Viento", image: "../assets/images/objetos" },
-        { word: "Nieve", image: "../assets/images/objetos" },
-        { word: "Calor", image: "../assets/images/objetos" },
-        { word: "Frío", image: "../assets/images/objetos" },
-      ],
-    },
-    places: {
-      name: "Lugares Comunes",
-      icon: "\ud83c\udfe1",
-      color: "bg-green-100",
-      borderColor: "border-green-300",
-      textColor: "text-green-600",
-      words: [
-        { word: "Casa", image: "../assets/images/objetos" },
-        { word: "Escuela", image: "../assets/images/objetos" },
-        { word: "Parque", image: "../assets/images/objetos" },
-        { word: "Tienda", image: "../assets/images/objetos" },
-        { word: "Plaza", image: "../assets/images/objetos" },
-        { word: "Hospital", image: "../assets/images/objetos" },
-      ],
-    },
-  };
 
   useEffect(() => {
     const loadVoices = () => {
@@ -346,9 +119,12 @@ const LanguageApp = () => {
             <CardContent className="p-4">
               <div className="relative aspect-video mb-4">
                 <img
-                  src={currentWord.image[Object.keys(currentWord.image)[0]]}
+                  src={
+                    currentWord.image || "/src/assets/images/placeholder.png"
+                  }
                   alt={currentWord.word}
-                  className="w-full h-full object-cover rounded-xl"
+                  className="w-full h-full object-contain rounded-xl"
+                  onLoad={() => speakWord(currentWord.word)}
                 />
               </div>
               <div className="flex justify-center gap-4">
@@ -374,7 +150,7 @@ const LanguageApp = () => {
 
       {/* Recompensa */}
       {showReward && (
-        <div className="fixed inset-0 flex items-center justify center bg-black bg-opacity-30 backdrop-blur-sm">
+        <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-30 backdrop-blur-sm">
           <div className="bg-white p-8 rounded-3xl flex flex-col items-center animate-bounce shadow-2xl border-4 border-yellow-300">
             <div className="text-6xl mb-4">🌟</div>
             <h2 className="text-3xl font-bold text-yellow-600">¡Muy bien!</h2>
