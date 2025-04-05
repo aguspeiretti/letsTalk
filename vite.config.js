@@ -7,30 +7,27 @@ export default defineConfig({
     react(),
     VitePWA({
       registerType: 'autoUpdate',
-      includeAssets: ['favicon.ico', 'apple-touch-icon.png', 'masked-icon.svg'],
+      includeAssets: ["favicon.ico", "robots.txt", "apple-touch-icon.png"],
       manifest: {
-        name: 'Mi Aplicación',
-        short_name: 'MiApp',
-        description: 'Descripción de mi aplicación',
-        theme_color: '#ffffff',
+        name: "vamos a hablar",
+        short_name: "Vamos a hablar",
+        description: "Aplicación para el habla",
+        theme_color: "#c7fe01",
+        background_color: "#ffffff",
+        display: "standalone",
+        start_url: "/",
         icons: [
           {
-            src: 'pwa-192x192.png',
-            sizes: '192x192',
-            type: 'image/png'
+            src: "/joystic.png",
+            sizes: "192x192",
+            type: "image/png",
           },
           {
-            src: 'pwa-512x512.png',
-            sizes: '512x512',
-            type: 'image/png'
+            src: "/joystic.png",
+            sizes: "512x512",
+            type: "image/png",
           },
-          {
-            src: 'pwa-512x512.png',
-            sizes: '512x512',
-            type: 'image/png',
-            purpose: 'maskable'
-          }
-        ]
+        ],
       }
     })
   ]

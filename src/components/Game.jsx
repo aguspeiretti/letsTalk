@@ -43,9 +43,12 @@ const LanguageApp = () => {
     if (selectedVoice) {
       const utterance = new SpeechSynthesisUtterance(word);
       utterance.voice = selectedVoice;
-      utterance.rate = 0.8;
-      utterance.pitch = 1;
+      utterance.rate = 0.9;  // Velocidad un poco más natural
+      utterance.pitch = 1.1; // Tono ligeramente más alto
       utterance.volume = 1;
+      // Agregamos una pequeña pausa al inicio y final para que suene más natural
+      const wordWithPauses = `, ${word}, `;
+      utterance.text = wordWithPauses;
       window.speechSynthesis.speak(utterance);
     }
   };
@@ -62,7 +65,8 @@ const LanguageApp = () => {
 
   const showSuccessReward = () => {
     setShowReward(true);
-    speakWord("¡Muy bien! ¡Eres increíble!");
+    // Agregamos pausas naturales con puntuación
+    speakWord("¡Muy bien! ... ¡Eres increíble!");
     setTimeout(() => setShowReward(false), 2000);
   };
 
