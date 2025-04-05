@@ -30,7 +30,7 @@ import auto from "./assets/images/transporte/auto.jpeg";
 import avion from "./assets/images/transporte/avion.jpeg";
 import barco from "./assets/images/transporte/barco.jpeg";
 import Bicicleta from "./assets/images/transporte/bicicleta.jpeg";
-import Camion from "./assets/images/transporte/Camion.jpeg";
+import Camion from "./assets/images/transporte/camion.jpeg";
 import Helicoptero from "./assets/images/transporte/descarga.jpeg";
 import moto from "./assets/images/transporte/moto.jpeg";
 import tren from "./assets/images/transporte/tren.jpeg";
